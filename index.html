@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A July 4, 2026 America 250 microsite with an interactive peer pulse quiz about the Declaration of Independence."
+    />
+    <title>Pulse 250 | Declaration of Independence</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="Pulse 250 home">
+        <span class="brand-mark" aria-hidden="true">250</span>
+        <span>Pulse 250</span>
+      </a>
+      <nav aria-label="Page sections">
+        <a href="#quiz">Quiz</a>
+        <a href="#pulse">Pulse</a>
+        <a href="#governed">Consent</a>
+        <a href="#celebrate">July 4</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">America's 250th birthday / July 4, 2026</p>
+          <h1 id="hero-title">What do your peers know about independence?</h1>
+          <p class="lede">
+            Take the Declaration pulse: answer five fast questions, compare your score to a
+            classroom-style sample, and see how consent of the governed works like a civic feedback
+            system.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button primary" href="#quiz">Start the pulse check</a>
+            <a class="button ghost" href="#governed">See the STEM idea</a>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="Declaration of Independence visual">
+          <div class="document-frame">
+            <img
+              src="./assets/declaration.jpg"
+              alt="Engrossed copy of the Declaration of Independence"
+              width="2400"
+              height="2918"
+            />
+          </div>
+          <div class="date-chip">
+            <span>Days until July 4, 2026</span>
+            <strong id="countdown">Calculating</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-grid" aria-label="Project overview">
+        <div>
+          <p class="section-kicker">The question</p>
+          <h2>Can a website measure civic knowledge and teach the why?</h2>
+        </div>
+        <p>
+          This project treats the Declaration as both history and technology: a shared protocol for
+          rights, accountability, and public consent. Every answer updates the peer pulse so visitors
+          can see where knowledge is strong and where the next conversation should begin.
+        </p>
+      </section>
+
+      <section class="section quiz-section" id="quiz" aria-labelledby="quiz-title">
+        <div class="section-heading">
+          <p class="section-kicker">Interactive quiz</p>
+          <h2 id="quiz-title">Five-question Declaration pulse check</h2>
+        </div>
+
+        <div class="quiz-shell">
+          <div class="quiz-card">
+            <div class="quiz-topline">
+              <span id="question-count">Question 1 of 5</span>
+              <span id="score-chip">Score 0</span>
+            </div>
+            <h3 id="question-text"></h3>
+            <div class="answers" id="answers"></div>
+            <p class="feedback" id="feedback" aria-live="polite"></p>
+            <button class="button primary next-button" id="next-question" type="button" disabled>
+              Next question
+            </button>
+          </div>
+
+          <aside class="score-panel" aria-labelledby="score-title">
+            <p class="section-kicker">Your readout</p>
+            <h3 id="score-title">Knowledge signal</h3>
+            <div class="score-ring" aria-hidden="true">
+              <span id="score-percent">0%</span>
+            </div>
+            <p id="score-note">
+              Answer each question to reveal how your score compares with the sample peer pulse.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section pulse-section" id="pulse" aria-labelledby="pulse-title">
+        <div class="section-heading">
+          <p class="section-kicker">Peer pulse dashboard</p>
+          <h2 id="pulse-title">What classmates might know first</h2>
+        </div>
+
+        <div class="pulse-layout">
+          <article class="poll-card">
+            <h3>Before the quiz, which idea feels most connected to the Declaration?</h3>
+            <div class="poll-options" id="poll-options"></div>
+          </article>
+
+          <div class="results-board" aria-label="Sample survey results">
+            <div class="result-row" style="--value: 84">
+              <span>Life, liberty, pursuit of happiness</span>
+              <strong>84%</strong>
+            </div>
+            <div class="bar" style="--value: 84"><span></span></div>
+            <div class="result-row" style="--value: 67">
+              <span>Consent of the governed</span>
+              <strong>67%</strong>
+            </div>
+            <div class="bar" style="--value: 67"><span></span></div>
+            <div class="result-row" style="--value: 51">
+              <span>Natural rights</span>
+              <strong>51%</strong>
+            </div>
+            <div class="bar" style="--value: 51"><span></span></div>
+            <div class="result-row" style="--value: 43">
+              <span>Connection to the Constitution</span>
+              <strong>43%</strong>
+            </div>
+            <div class="bar" style="--value: 43"><span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section consent-section" id="governed" aria-labelledby="consent-title">
+        <div class="section-heading">
+          <p class="section-kicker">STEM explanation</p>
+          <h2 id="consent-title">Consent of the governed as a feedback loop</h2>
+        </div>
+
+        <div class="system-diagram" aria-label="Consent of the governed feedback loop">
+          <div class="node">
+            <span>1</span>
+            <h3>People hold rights</h3>
+            <p>Rights are not granted by officials; government is built to secure them.</p>
+          </div>
+          <div class="connector" aria-hidden="true"></div>
+          <div class="node">
+            <span>2</span>
+            <h3>People give consent</h3>
+            <p>Voting, speech, juries, town halls, and petitions send public input into the system.</p>
+          </div>
+          <div class="connector" aria-hidden="true"></div>
+          <div class="node">
+            <span>3</span>
+            <h3>Power is checked</h3>
+            <p>When leaders drift from consent, elections and constitutional limits correct course.</p>
+          </div>
+        </div>
+
+        <blockquote>
+          "Governments are instituted among Men, deriving their just powers from the consent of the
+          governed."
+        </blockquote>
+      </section>
+
+      <section class="section celebrate-section" id="celebrate" aria-labelledby="celebrate-title">
+        <div>
+          <p class="section-kicker">July 4, 2026</p>
+          <h2 id="celebrate-title">Celebrate by asking better questions</h2>
+          <p>
+            America's birthday is more than fireworks. For the 250th anniversary, this site invites
+            peers to test what they know, talk about self-government, and connect the Declaration's
+            ideals to daily civic choices.
+          </p>
+        </div>
+        <div class="celebrate-list">
+          <div>
+            <span>01</span>
+            <strong>Survey your class</strong>
+            <p>Ask what phrases and principles people recognize before they study.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Discuss the gaps</strong>
+            <p>Use the results to choose one topic for a focused peer conversation.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Make it public</strong>
+            <p>Share the quiz link for July 4 and invite others to add their pulse.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built for the We The Future STEM prompt. Declaration image courtesy of the National Archives.
+      </p>
+      <a href="https://www.archives.gov/founding-docs/downloads">Image source</a>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
