@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Constitutional Convention hall">
+  <rect width="1200" height="800" fill="#d5c69f"/>
+  <path d="M160 650h880V250L600 92 160 250z" fill="#fff8df" stroke="#14213d" stroke-width="12"/>
+  <path d="M260 650V330M420 650V330M580 650V330M740 650V330M900 650V330" stroke="#14213d" stroke-width="18"/>
+  <path d="M260 330h640M210 650h780" stroke="#b21f35" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="600" cy="232" r="58" fill="#14213d"/>
+  <path d="M560 232h80M600 192v80" stroke="#fff8df" stroke-width="10"/>
+</svg>

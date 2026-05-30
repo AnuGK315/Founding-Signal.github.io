@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Boston street confrontation">
+  <rect width="1200" height="800" fill="#b9c0bf"/>
+  <path d="M0 610h1200v190H0z" fill="#4f4a43"/>
+  <path d="M120 160h260v450H120zM780 120h300v490H780z" fill="#d9c7a5" stroke="#14213d" stroke-width="12"/>
+  <path d="M490 322l250-76v344l-250 72z" fill="#fff2cf" stroke="#14213d" stroke-width="12"/>
+  <path d="M506 500h200M506 552h170" stroke="#b21f35" stroke-width="16" stroke-linecap="round"/>
+  <path d="M250 625c54-96 122-96 176 0M823 624c54-96 122-96 176 0" fill="none" stroke="#14213d" stroke-width="20"/>
+  <circle cx="338" cy="430" r="58" fill="#14213d"/><circle cx="912" cy="430" r="58" fill="#b21f35"/>
+</svg>

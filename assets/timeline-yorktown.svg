@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Yorktown siege and ships">
+  <rect width="1200" height="800" fill="#d7dfd8"/>
+  <path d="M0 560h1200v240H0z" fill="#1f5fbf" opacity=".72"/>
+  <path d="M180 430h430l-54 120H250z" fill="#6b4724" stroke="#14213d" stroke-width="12"/>
+  <path d="M790 470h240l-38 80H832z" fill="#6b4724" stroke="#14213d" stroke-width="10"/>
+  <path d="M315 220v208M455 170v258M888 280v190" stroke="#14213d" stroke-width="16"/>
+  <path d="M315 240l180 62-180 62zM455 190l210 78-210 78zM888 298l126 50-126 50z" fill="#fff8df" stroke="#14213d" stroke-width="10"/>
+  <path d="M160 620c210 64 430-64 640 0s280 10 400-20" fill="none" stroke="#fff8df" stroke-width="18" opacity=".65"/>
+</svg>

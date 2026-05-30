@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Delegates gathered around a table">
+  <rect width="1200" height="800" fill="#efe2c2"/>
+  <path d="M180 150h840v500H180z" fill="#fff9e8" stroke="#14213d" stroke-width="12"/>
+  <path d="M300 345h600v180H300z" fill="#8b5a2b" stroke="#14213d" stroke-width="12"/>
+  <path d="M360 300h480M360 570h480" stroke="#b21f35" stroke-width="18" stroke-linecap="round"/>
+  <g fill="#14213d">
+    <circle cx="360" cy="250" r="42"/><circle cx="500" cy="250" r="42"/><circle cx="640" cy="250" r="42"/><circle cx="780" cy="250" r="42"/>
+    <circle cx="430" cy="625" r="42"/><circle cx="570" cy="625" r="42"/><circle cx="710" cy="625" r="42"/><circle cx="850" cy="625" r="42"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Tea chests in Boston Harbor">
+  <rect width="1200" height="800" fill="#d7e0df"/>
+  <path d="M0 520c170-50 300 50 470 0s300 50 470 0 220 0 260 16v264H0z" fill="#1f5fbf" opacity=".82"/>
+  <path d="M190 390h620l-82 130H282z" fill="#4b341c" stroke="#14213d" stroke-width="12"/>
+  <path d="M330 210v178M520 160v228M700 245v143" stroke="#14213d" stroke-width="16"/>
+  <path d="M330 225l162 60-162 60zM520 176l210 74-210 74z" fill="#fff8df" stroke="#14213d" stroke-width="10"/>
+  <rect x="820" y="488" width="120" height="82" fill="#b8793a" stroke="#14213d" stroke-width="10" transform="rotate(18 880 529)"/>
+  <rect x="928" y="560" width="130" height="86" fill="#b8793a" stroke="#14213d" stroke-width="10" transform="rotate(-10 993 603)"/>
+</svg>

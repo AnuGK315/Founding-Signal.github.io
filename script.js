@@ -82,6 +82,7 @@ const historyMoments = [
       "Crowds protested in the streets while merchants organized boycotts.",
       "Resistance helped different colonies begin acting together."
     ],
+    image: "./assets/timeline-stamp-act.svg",
     imagePosition: "14% 20%"
   },
   {
@@ -97,6 +98,7 @@ const historyMoments = [
       "The event deepened mistrust of British military authority.",
       "It helped turn local anger into a larger political story."
     ],
+    image: "./assets/timeline-boston-massacre.svg",
     imagePosition: "44% 18%"
   },
   {
@@ -112,6 +114,7 @@ const historyMoments = [
       "Britain answered with the Coercive Acts, which punished Massachusetts.",
       "Punishment for Boston made other colonies fear they could be next."
     ],
+    image: "./assets/timeline-tea-party.svg",
     imagePosition: "72% 24%"
   },
   {
@@ -127,6 +130,7 @@ const historyMoments = [
       "The meeting showed the colonies could cooperate politically.",
       "Philadelphia became a center of revolutionary planning."
     ],
+    image: "./assets/timeline-congress.svg",
     imagePosition: "26% 42%"
   },
   {
@@ -142,6 +146,7 @@ const historyMoments = [
       "The war began before independence was formally declared.",
       "Political debate and military struggle were now tied together."
     ],
+    image: "./assets/timeline-lexington-concord.svg",
     imagePosition: "52% 44%"
   },
   {
@@ -157,6 +162,7 @@ const historyMoments = [
       "It announced that the colonies were free and independent states.",
       "Its language shaped later American debates about equality and rights."
     ],
+    image: "./assets/timeline-declaration.svg",
     imagePosition: "78% 48%"
   },
   {
@@ -172,6 +178,7 @@ const historyMoments = [
       "The surrender weakened British political support for the war.",
       "Independence was becoming a fact, not just an argument."
     ],
+    image: "./assets/timeline-yorktown.svg",
     imagePosition: "18% 70%"
   },
   {
@@ -187,6 +194,7 @@ const historyMoments = [
       "The new republic gained territory stretching to the Mississippi River.",
       "The next challenge was how to govern the nation it had created."
     ],
+    image: "./assets/timeline-treaty-paris.svg",
     imagePosition: "44% 72%"
   },
   {
@@ -202,6 +210,7 @@ const historyMoments = [
       "Debates focused on power, representation, and national stability.",
       "The Constitution answered the practical problem of how a free people would govern themselves."
     ],
+    image: "./assets/timeline-convention.svg",
     imagePosition: "70% 74%"
   },
   {
@@ -217,6 +226,7 @@ const historyMoments = [
       "The amendments reassured critics of the Constitution.",
       "They show the long afterlife of Declaration ideals."
     ],
+    image: "./assets/timeline-bill-rights.svg",
     imagePosition: "84% 78%"
   }
 ];
@@ -278,11 +288,11 @@ function setupQuiz() {
     if (!final) return;
 
     if (percent >= 80) {
-      scoreNote.textContent = "Strong pulse. You can lead the peer conversation on rights and consent.";
+      scoreNote.textContent = "Strong score. You have the core ideas down.";
     } else if (percent >= 50) {
-      scoreNote.textContent = "Good pulse. Review consent of the governed and the Constitution connection next.";
+      scoreNote.textContent = "Good start. Review consent of the governed and the Constitution connection next.";
     } else {
-      scoreNote.textContent = "Starting pulse. The dashboard shows exactly where to build your Declaration knowledge.";
+      scoreNote.textContent = "Keep going. The key ideas are rights, consent, independence, and limited power.";
     }
   }
 
@@ -378,13 +388,13 @@ function setupPoll() {
     if (savedVote !== null) {
       const picked = pollOptions[Number(savedVote)];
       if (picked) {
-        pollNote.textContent = `Vote recorded: ${picked.label}. This browser will not count another vote in the dashboard.`;
-        resultsLabel.textContent = "Live pulse after your one recorded vote";
+        pollNote.textContent = `Vote recorded: ${picked.label}.`;
+        resultsLabel.textContent = "After your vote";
       }
       return;
     }
 
-    pollNote.textContent = "Your device gets one vote, so the pulse works more like a real class snapshot.";
+    pollNote.textContent = "One vote is recorded per browser.";
     resultsLabel.textContent = "Sample benchmark results";
   }
 
@@ -428,6 +438,7 @@ function setupLab() {
     historySummary.textContent = moment.summary;
     historyWhat.textContent = moment.what;
     historyWhy.textContent = moment.why;
+    historyImage.style.backgroundImage = `linear-gradient(180deg, rgba(12, 18, 32, 0.08), rgba(12, 18, 32, 0.7)), url("${moment.image}")`;
     historyImage.style.backgroundPosition = moment.imagePosition;
 
     historyPoints.innerHTML = "";
@@ -448,10 +459,12 @@ function setupLab() {
       button.hidden = moment.filter !== activeFilter;
       button.setAttribute("aria-pressed", index === activeMomentIndex ? "true" : "false");
       button.innerHTML = `
-        <span class="timeline-dot" aria-hidden="true"></span>
-        <span class="timeline-date">${moment.year}</span>
-        <span class="timeline-title">${moment.title}</span>
-        <span class="timeline-summary">${moment.summary}</span>
+        <span class="timeline-thumb" style="background-image: url('${moment.image}')" aria-hidden="true"></span>
+        <span class="timeline-copy">
+          <span class="timeline-date">${moment.year}</span>
+          <span class="timeline-title">${moment.title}</span>
+          <span class="timeline-summary">${moment.summary}</span>
+        </span>
       `;
 
       button.addEventListener("click", () => {

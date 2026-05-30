@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Colonial green and militia lines">
+  <rect width="1200" height="800" fill="#d9d6be"/>
+  <path d="M0 520h1200v280H0z" fill="#526b42"/>
+  <path d="M140 510c160-150 260-150 420 0M640 508c130-112 250-118 420 0" fill="none" stroke="#14213d" stroke-width="18"/>
+  <path d="M240 250l160 250M340 250l160 250M740 250l-160 250M840 250L680 500" stroke="#5c3b1d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M210 552h300M690 552h300" stroke="#b21f35" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="310" cy="222" r="54" fill="#14213d"/><circle cx="790" cy="222" r="54" fill="#b21f35"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Bill of Rights amendments">
+  <rect width="1200" height="800" fill="#dfd2b4"/>
+  <rect x="244" y="88" width="712" height="620" rx="22" fill="#fff9e8" stroke="#14213d" stroke-width="12"/>
+  <path d="M372 215h456M372 302h456M372 389h456M372 476h456M372 563h330" stroke="#6f5632" stroke-width="18" stroke-linecap="round"/>
+  <g fill="#b21f35">
+    <circle cx="310" cy="215" r="20"/><circle cx="310" cy="302" r="20"/><circle cx="310" cy="389" r="20"/><circle cx="310" cy="476" r="20"/><circle cx="310" cy="563" r="20"/>
+  </g>
+  <path d="M830 600l70 42 70-42v-120H830z" fill="#14213d"/>
+</svg>

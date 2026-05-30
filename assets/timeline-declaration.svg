@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Declaration signing table">
+  <rect width="1200" height="800" fill="#d6c39a"/>
+  <rect x="270" y="88" width="610" height="610" rx="24" fill="#fff8df" stroke="#14213d" stroke-width="12"/>
+  <path d="M380 210h390M380 285h330M380 360h390M380 435h300" stroke="#725631" stroke-width="18" stroke-linecap="round"/>
+  <path d="M480 570c80-70 126 56 210-24 42-40 72-40 118-12" fill="none" stroke="#14213d" stroke-width="16" stroke-linecap="round"/>
+  <path d="M825 462l150-74-78 150-78 32z" fill="#b21f35" stroke="#14213d" stroke-width="10"/>
+</svg>
