@@ -20,6 +20,7 @@
       <nav aria-label="Page sections">
         <a href="#quiz">Quiz</a>
         <a href="#pulse">Pulse</a>
+        <a href="#lab">Lab</a>
         <a href="#governed">Consent</a>
         <a href="#celebrate">July 4</a>
       </nav>
@@ -112,9 +113,13 @@
           <article class="poll-card">
             <h3>Before the quiz, which idea feels most connected to the Declaration?</h3>
             <div class="poll-options" id="poll-options"></div>
+            <p class="poll-note" id="poll-note">
+              Your device gets one vote, so the pulse works more like a real class snapshot.
+            </p>
           </article>
 
           <div class="results-board" aria-label="Sample survey results">
+            <p class="results-label" id="results-label">Sample benchmark results</p>
             <div class="result-row" style="--value: 84">
               <span>Life, liberty, pursuit of happiness</span>
               <strong>84%</strong>
@@ -136,6 +141,54 @@
             </div>
             <div class="bar" style="--value: 43"><span></span></div>
           </div>
+        </div>
+      </section>
+
+      <section class="section lab-section" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <p class="section-kicker">Interactive civic lab</p>
+          <h2 id="lab-title">Learn the Declaration by testing ideas</h2>
+          <p class="lab-intro">
+            These mini interactives turn big principles into cause-and-effect decisions so the site
+            teaches while it measures what visitors know.
+          </p>
+        </div>
+
+        <div class="lab-grid">
+          <article class="lab-card">
+            <p class="mini-kicker">Scenario builder</p>
+            <h3>Which action shows consent of the governed?</h3>
+            <p class="lab-copy">
+              Pick the civic response that best matches the Declaration’s idea that just power
+              comes from the people.
+            </p>
+            <div class="scenario-options" id="scenario-options"></div>
+            <p class="scenario-feedback" id="scenario-feedback" aria-live="polite"></p>
+          </article>
+
+          <article class="lab-card">
+            <p class="mini-kicker">Idea map</p>
+            <h3>Trace how the Declaration connects to daily self-government</h3>
+            <div class="principle-tabs" id="principle-tabs" aria-label="Declaration principle tabs"></div>
+            <div class="principle-panel" id="principle-panel">
+              <h4 id="principle-title"></h4>
+              <p id="principle-summary"></p>
+              <dl class="principle-details">
+                <div>
+                  <dt>Declaration idea</dt>
+                  <dd id="principle-idea"></dd>
+                </div>
+                <div>
+                  <dt>How people show it</dt>
+                  <dd id="principle-action"></dd>
+                </div>
+                <div>
+                  <dt>Why it matters</dt>
+                  <dd id="principle-impact"></dd>
+                </div>
+              </dl>
+            </div>
+          </article>
         </div>
       </section>
 

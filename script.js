@@ -53,9 +53,54 @@ const pollOptions = [
   { label: "Checks on power", votes: 18 }
 ];
 
+const scenarioChoices = [
+  {
+    label: "Citizens attend a town hall, challenge a proposal, and vote in the next election",
+    correct: true,
+    note: "This matches consent of the governed because people are actively shaping and checking public power."
+  },
+  {
+    label: "A leader keeps power permanently because experience matters more than elections",
+    correct: false,
+    note: "The Declaration rejects permanent unchecked power. Legitimate authority must remain accountable to the people."
+  },
+  {
+    label: "A court writes every law without input from voters or representatives",
+    correct: false,
+    note: "Courts matter, but consent is broader than one institution. Self-government depends on public participation and representation."
+  }
+];
+
+const principleCards = [
+  {
+    label: "Natural rights",
+    summary: "The Declaration says rights belong to people first, and government exists to protect them.",
+    idea: "Life, liberty, and the pursuit of happiness are described as unalienable rights.",
+    action: "People defend these rights through speech, due process, voting, juries, and public advocacy.",
+    impact: "This keeps government focused on protecting human dignity instead of creating rights only when convenient."
+  },
+  {
+    label: "Consent",
+    summary: "Government is just only when its power comes from the people it governs.",
+    idea: "Public consent is the source of legitimate authority.",
+    action: "Elections, petitions, town halls, public debate, and peaceful protest all feed citizen input into the system.",
+    impact: "It creates a feedback loop where leaders must answer to the public instead of ruling by force."
+  },
+  {
+    label: "Checks and balances",
+    summary: "The Constitution later turns Declaration ideals into structures that limit power.",
+    idea: "The Declaration states the principles; the Constitution engineers the guardrails.",
+    action: "Branches check one another while voters periodically replace leaders.",
+    impact: "This reduces the risk of tyranny by making it harder for any one group to control everything at once."
+  }
+];
+
+const pollStorageKey = "pulse250-vote";
+
 let currentQuestion = 0;
 let score = 0;
 let answered = false;
+let selectedPrinciple = 0;
 
 const questionCount = document.querySelector("#question-count");
 const scoreChip = document.querySelector("#score-chip");
@@ -68,6 +113,16 @@ const scoreNote = document.querySelector("#score-note");
 const scoreRing = document.querySelector(".score-ring");
 const countdown = document.querySelector("#countdown");
 const pollEl = document.querySelector("#poll-options");
+const pollNote = document.querySelector("#poll-note");
+const resultsLabel = document.querySelector("#results-label");
+const scenarioOptions = document.querySelector("#scenario-options");
+const scenarioFeedback = document.querySelector("#scenario-feedback");
+const principleTabs = document.querySelector("#principle-tabs");
+const principleTitle = document.querySelector("#principle-title");
+const principleSummary = document.querySelector("#principle-summary");
+const principleIdea = document.querySelector("#principle-idea");
+const principleAction = document.querySelector("#principle-action");
+const principleImpact = document.querySelector("#principle-impact");
 
 function renderQuestion() {
   const item = questions[currentQuestion];
@@ -153,29 +208,99 @@ function updateCountdown() {
 }
 
 function renderPoll() {
+  const savedVote = window.localStorage.getItem(pollStorageKey);
   pollEl.innerHTML = "";
-  pollOptions.forEach((option) => {
+  const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0);
+
+  pollOptions.forEach((option, index) => {
     const button = document.createElement("button");
     button.className = "poll-choice";
     button.type = "button";
-    button.setAttribute("aria-pressed", "false");
-    button.innerHTML = `<span>${option.label}</span><strong>${option.votes}</strong>`;
+    const isSelected = savedVote === String(index);
+    button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+    button.disabled = savedVote !== null;
+    const percent = Math.round((option.votes / totalVotes) * 100);
+    button.innerHTML = `<span>${option.label}</span><strong>${percent}%</strong>`;
     button.addEventListener("click", () => {
-      document.querySelectorAll(".poll-choice").forEach((choice) => {
-        choice.setAttribute("aria-pressed", "false");
-      });
+      if (window.localStorage.getItem(pollStorageKey) !== null) return;
       option.votes += 1;
-      button.setAttribute("aria-pressed", "true");
+      window.localStorage.setItem(pollStorageKey, String(index));
       renderPoll();
-      const selected = [...document.querySelectorAll(".poll-choice")].find((choice) =>
-        choice.textContent.includes(option.label)
-      );
-      selected?.setAttribute("aria-pressed", "true");
     });
     pollEl.append(button);
   });
+
+  if (savedVote !== null) {
+    const picked = pollOptions[Number(savedVote)];
+    pollNote.textContent = `Vote recorded: ${picked.label}. Your browser will not count another vote in this snapshot.`;
+    resultsLabel.textContent = "Live pulse after your one recorded vote";
+    return;
+  }
+
+  pollNote.textContent = "Your device gets one vote, so the pulse works more like a real class snapshot.";
+  resultsLabel.textContent = "Sample benchmark results";
+}
+
+function renderScenarioChoices() {
+  scenarioOptions.innerHTML = "";
+  scenarioFeedback.textContent =
+    "Choose the response that most clearly shows government getting its just power from the people.";
+
+  scenarioChoices.forEach((choice) => {
+    const button = document.createElement("button");
+    button.className = "scenario-button";
+    button.type = "button";
+    button.textContent = choice.label;
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".scenario-button").forEach((item) => {
+        item.disabled = true;
+        if (item.textContent === choice.label) {
+          item.classList.add(choice.correct ? "correct" : "wrong");
+        }
+      });
+
+      if (!choice.correct) {
+        const correctIndex = scenarioChoices.findIndex((item) => item.correct);
+        const correctButton = document.querySelectorAll(".scenario-button")[correctIndex];
+        correctButton?.classList.add("correct");
+      }
+
+      scenarioFeedback.textContent = choice.note;
+    });
+    scenarioOptions.append(button);
+  });
+}
+
+function renderPrincipleTabs() {
+  principleTabs.innerHTML = "";
+
+  principleCards.forEach((card, index) => {
+    const button = document.createElement("button");
+    button.className = "principle-tab";
+    button.type = "button";
+    button.textContent = card.label;
+    button.setAttribute("aria-pressed", index === selectedPrinciple ? "true" : "false");
+    button.addEventListener("click", () => {
+      selectedPrinciple = index;
+      renderPrincipleTabs();
+      renderPrinciplePanel();
+    });
+    principleTabs.append(button);
+  });
+}
+
+function renderPrinciplePanel() {
+  const card = principleCards[selectedPrinciple];
+  principleTitle.textContent = card.label;
+  principleSummary.textContent = card.summary;
+  principleIdea.textContent = card.idea;
+  principleAction.textContent = card.action;
+  principleImpact.textContent = card.impact;
 }
 
 renderQuestion();
 renderPoll();
+renderScenarioChoices();
+renderPrincipleTabs();
+renderPrinciplePanel();
 updateCountdown();
