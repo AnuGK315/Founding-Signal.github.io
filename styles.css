@@ -442,11 +442,9 @@ h3 {
 .poll-note,
 .results-label,
 .lab-intro,
-.history-copy,
 .history-detail-summary,
 .history-detail-grid p,
-.history-outcomes-grid p,
-.history-summary-grid p {
+.history-outcomes-grid p {
   color: var(--muted);
   line-height: 1.5;
 }
@@ -497,61 +495,30 @@ h3 {
 }
 
 .lab-story {
-  display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(340px, 0.94fr);
-  gap: 22px;
-  align-items: stretch;
+  display: block;
   margin-bottom: 22px;
 }
 
+.lab-heading-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.7fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: end;
+}
+
 .lab-heading h2 {
-  max-width: 11ch;
+  max-width: 9ch;
   font-size: clamp(2.9rem, 5.5vw, 5.8rem);
   line-height: 0.95;
+  margin-bottom: 0;
 }
 
 .lab-intro {
-  max-width: 720px;
   font-size: 1.1rem;
+  max-width: 28ch;
+  margin-bottom: 0;
 }
 
-.history-summary,
-.history-panel,
-.history-detail-card,
-.history-outcomes {
-  border-radius: calc(var(--radius) + 8px);
-}
-
-.history-summary {
-  padding: clamp(22px, 4vw, 32px);
-  color: #fff;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.06), transparent 48%),
-    linear-gradient(180deg, #121c34, #1d2d4f);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 26px 70px rgba(20, 33, 61, 0.2);
-}
-
-.history-summary .mini-kicker {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.history-summary-grid {
-  display: grid;
-  gap: 16px;
-}
-
-.history-summary-grid div {
-  padding: 16px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.history-summary-grid div:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.history-summary-grid span,
 .history-outcomes-grid span,
 .timeline-date,
 .timeline-summary {
@@ -576,6 +543,7 @@ h3 {
 .history-panel,
 .history-detail-card,
 .history-outcomes {
+  border-radius: calc(var(--radius) + 8px);
   padding: clamp(22px, 4vw, 34px);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.24)),
@@ -601,6 +569,10 @@ h3 {
 
 .history-panel-head {
   margin-bottom: 18px;
+}
+
+.history-panel-head h3 {
+  margin-bottom: 0;
 }
 
 .mini-kicker {
@@ -635,12 +607,6 @@ h3 {
   color: #fff;
   background: var(--navy);
   border-color: var(--navy);
-}
-
-.history-copy {
-  margin-bottom: 24px;
-  color: var(--muted);
-  line-height: 1.55;
 }
 
 .timeline-track {
@@ -1027,7 +993,7 @@ footer a {
   .hero,
   .quiz-shell,
   .pulse-layout,
-  .lab-story,
+  .lab-heading-row,
   .history-explorer,
   .history-outcomes-grid,
   .celebrate-section,
