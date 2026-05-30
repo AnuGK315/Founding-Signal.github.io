@@ -145,51 +145,107 @@
       </section>
 
       <section class="section lab-section" id="lab" aria-labelledby="lab-title">
-        <div class="section-heading">
-          <p class="section-kicker">Interactive civic lab</p>
-          <h2 id="lab-title">Learn the Declaration by testing ideas</h2>
-          <p class="lab-intro">
-            These mini interactives turn big principles into cause-and-effect decisions so the site
-            teaches while it measures what visitors know.
-          </p>
+        <div class="lab-story">
+          <div class="lab-heading">
+            <p class="section-kicker">Interactive history lab</p>
+            <h2 id="lab-title">Trace the road to independence and what it changed after 1776.</h2>
+            <p class="lab-intro">
+              The Declaration did not appear out of nowhere. Explore the chain of events that built
+              pressure before July 4, 1776 and the new systems, victories, and debates that
+              followed it.
+            </p>
+          </div>
+
+          <aside class="history-summary" aria-label="History explorer guide">
+            <p class="mini-kicker">How to use this</p>
+            <div class="history-summary-grid">
+              <div>
+                <span>Before</span>
+                <p>See how taxes, protests, and war pushed colonists toward a break with Britain.</p>
+              </div>
+              <div>
+                <span>1776</span>
+                <p>Stop at the moment independence became a public argument and a political claim.</p>
+              </div>
+              <div>
+                <span>After</span>
+                <p>Follow how the Declaration led into victory, constitutional design, and the Bill of Rights.</p>
+              </div>
+            </div>
+          </aside>
         </div>
 
-        <div class="lab-grid">
-          <article class="lab-card">
-            <p class="mini-kicker">Scenario builder</p>
-            <h3>Which action shows consent of the governed?</h3>
-            <p class="lab-copy">
-              Pick the civic response that best matches the Declaration’s idea that just power
-              comes from the people.
+        <div class="history-explorer">
+          <article class="history-panel">
+            <div class="history-panel-head">
+              <div>
+                <p class="mini-kicker">Historical timeline</p>
+                <h3>Click the story beats to move through the revolution</h3>
+              </div>
+              <div class="history-filter" id="history-filter" aria-label="Timeline era filters"></div>
+            </div>
+            <p class="history-copy">
+              Each event explains not only what happened, but why it pushed the colonies closer to
+              independence or shaped the new nation afterward.
             </p>
-            <div class="scenario-options" id="scenario-options"></div>
-            <p class="scenario-feedback" id="scenario-feedback" aria-live="polite"></p>
+            <div class="timeline-track" id="history-timeline" aria-label="Declaration history timeline"></div>
           </article>
 
-          <article class="lab-card">
-            <p class="mini-kicker">Idea map</p>
-            <h3>Trace how the Declaration connects to daily self-government</h3>
-            <div class="principle-tabs" id="principle-tabs" aria-label="Declaration principle tabs"></div>
-            <div class="principle-panel" id="principle-panel">
-              <h4 id="principle-title"></h4>
-              <p id="principle-summary"></p>
-              <dl class="principle-details">
+          <article class="history-detail-card">
+            <div class="history-detail-visual">
+              <div class="history-detail-date">
+                <span id="history-era"></span>
+                <strong id="history-year"></strong>
+              </div>
+              <div class="history-detail-frame">
+                <div class="history-detail-image" id="history-image" aria-hidden="true"></div>
+                <div class="history-detail-caption">
+                  <p class="mini-kicker">Why this moment matters</p>
+                  <h3 id="history-title"></h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="history-detail-body">
+              <p class="history-detail-summary" id="history-summary"></p>
+              <div class="history-detail-grid">
                 <div>
-                  <dt>Declaration idea</dt>
-                  <dd id="principle-idea"></dd>
+                  <p class="mini-kicker">What happened</p>
+                  <p id="history-what"></p>
                 </div>
                 <div>
-                  <dt>How people show it</dt>
-                  <dd id="principle-action"></dd>
+                  <p class="mini-kicker">Why it moved history</p>
+                  <p id="history-why"></p>
                 </div>
-                <div>
-                  <dt>Why it matters</dt>
-                  <dd id="principle-impact"></dd>
-                </div>
-              </dl>
+              </div>
+              <ul class="history-detail-points" id="history-points"></ul>
             </div>
           </article>
         </div>
+
+        <article class="history-outcomes">
+          <div class="history-outcomes-head">
+            <p class="mini-kicker">Big picture</p>
+            <h3>The Declaration was both an ending and a beginning</h3>
+          </div>
+          <div class="history-outcomes-grid">
+            <div>
+              <span>Break</span>
+              <strong>It publicly severed the colonies from British rule.</strong>
+              <p>The Declaration turned rebellion into a formal argument for independence.</p>
+            </div>
+            <div>
+              <span>War aim</span>
+              <strong>It gave the Revolution a clear purpose people could defend.</strong>
+              <p>Colonists were no longer just protesting policy. They were building a new nation.</p>
+            </div>
+            <div>
+              <span>Legacy</span>
+              <strong>Its principles continued into the Constitution and Bill of Rights.</strong>
+              <p>The later framework of government was built to protect the rights and consent the Declaration announced.</p>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section class="section consent-section" id="governed" aria-labelledby="consent-title">
