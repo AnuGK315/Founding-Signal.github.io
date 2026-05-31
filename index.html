@@ -18,8 +18,8 @@
         <span>Pulse 250</span>
       </a>
       <nav aria-label="Page sections">
-        <a href="#quiz">Quiz</a>
         <a href="#pulse">Pulse</a>
+        <a href="#quiz">Quiz</a>
         <a href="#lab">Lab</a>
         <a href="#governed">Consent</a>
         <a href="#celebrate">July 4</a>
@@ -36,8 +36,8 @@
             that power only stays legitimate when people can hold it accountable.
           </p>
           <div class="hero-actions" aria-label="Primary actions">
-            <a class="button primary" href="#quiz">Start the pulse check</a>
-            <a class="button ghost" href="#governed">See the STEM idea</a>
+            <a class="button primary" href="#quiz">Start the quiz</a>
+            <a class="button ghost" href="#governed">Learn about consent of the governed</a>
           </div>
         </div>
 
@@ -68,9 +68,46 @@
         </p>
       </section>
 
+      <section class="section pulse-section" id="pulse" aria-labelledby="pulse-title">
+        <div class="section-heading">
+          <p class="section-kicker">Quick poll</p>
+          <h2 id="pulse-title">What people recognize first</h2>
+        </div>
+
+        <div class="pulse-layout">
+          <article class="poll-card">
+            <h3>Before the quiz, which idea feels most connected to the Declaration to you?</h3>
+            <div class="poll-options" id="poll-options"></div>
+          </article>
+
+          <div class="results-board" aria-label="Sample survey results">
+            <p class="results-label" id="results-label">Sample benchmark results</p>
+            <div class="result-row" style="--value: 84">
+              <span>Life, liberty, pursuit of happiness</span>
+              <strong>84%</strong>
+            </div>
+            <div class="bar" style="--value: 84"><span></span></div>
+            <div class="result-row" style="--value: 67">
+              <span>Consent of the governed</span>
+              <strong>67%</strong>
+            </div>
+            <div class="bar" style="--value: 67"><span></span></div>
+            <div class="result-row" style="--value: 51">
+              <span>Natural rights</span>
+              <strong>51%</strong>
+            </div>
+            <div class="bar" style="--value: 51"><span></span></div>
+            <div class="result-row" style="--value: 43">
+              <span>Connection to the Constitution</span>
+              <strong>43%</strong>
+            </div>
+            <div class="bar" style="--value: 43"><span></span></div>
+          </div>
+        </div>
+      </section>
+
       <section class="section quiz-section" id="quiz" aria-labelledby="quiz-title">
         <div class="section-heading">
-          <p class="section-kicker">Interactive quiz</p>
           <h2 id="quiz-title">Five-question Declaration pulse check</h2>
         </div>
 
@@ -101,54 +138,13 @@
         </div>
       </section>
 
-      <section class="section pulse-section" id="pulse" aria-labelledby="pulse-title">
-        <div class="section-heading">
-          <p class="section-kicker">Quick poll</p>
-          <h2 id="pulse-title">What people recognize first</h2>
-        </div>
-
-        <div class="pulse-layout">
-          <article class="poll-card">
-            <h3>Before the quiz, which idea feels most connected to the Declaration?</h3>
-            <div class="poll-options" id="poll-options"></div>
-            <p class="poll-note" id="poll-note">
-              One vote is recorded per browser.
-            </p>
-          </article>
-
-          <div class="results-board" aria-label="Sample survey results">
-            <p class="results-label" id="results-label">Sample benchmark results</p>
-            <div class="result-row" style="--value: 84">
-              <span>Life, liberty, pursuit of happiness</span>
-              <strong>84%</strong>
-            </div>
-            <div class="bar" style="--value: 84"><span></span></div>
-            <div class="result-row" style="--value: 67">
-              <span>Consent of the governed</span>
-              <strong>67%</strong>
-            </div>
-            <div class="bar" style="--value: 67"><span></span></div>
-            <div class="result-row" style="--value: 51">
-              <span>Natural rights</span>
-              <strong>51%</strong>
-            </div>
-            <div class="bar" style="--value: 51"><span></span></div>
-            <div class="result-row" style="--value: 43">
-              <span>Connection to the Constitution</span>
-              <strong>43%</strong>
-            </div>
-            <div class="bar" style="--value: 43"><span></span></div>
-          </div>
-        </div>
-      </section>
-
       <section class="section lab-section" id="lab" aria-labelledby="lab-title">
         <div class="lab-story">
           <div class="lab-heading">
             <p class="section-kicker">Interactive history lab</p>
             <div class="lab-heading-row">
               <h2 id="lab-title">Trace the road to independence and what it changed after 1776.</h2>
-            <p class="lab-intro">
+              <p class="lab-intro">
                 The Declaration did not appear out of nowhere. Start with the pressure before July
                 4, 1776, then follow the victories and debates that came after.
               </p>

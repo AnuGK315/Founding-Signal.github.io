@@ -498,35 +498,36 @@ h3 {
 }
 
 .lab-section {
+  padding-top: clamp(48px, 6vw, 86px);
   background:
     linear-gradient(180deg, rgba(20, 33, 61, 0.08), transparent 18%),
     var(--paper);
 }
 
 .lab-story {
-  margin-bottom: clamp(26px, 4vw, 42px);
+  margin-bottom: clamp(22px, 3vw, 34px);
 }
 
 .lab-heading-row {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.72fr);
-  gap: clamp(24px, 4vw, 56px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+  gap: clamp(28px, 5vw, 70px);
+  align-items: center;
 }
 
 .lab-heading h2 {
-  max-width: 13ch;
-  font-size: clamp(2.55rem, 4.7vw, 5rem);
-  line-height: 0.98;
+  max-width: 15ch;
+  font-size: clamp(2.55rem, 4.15vw, 4.65rem);
+  line-height: 0.94;
   margin-bottom: 0;
   text-wrap: balance;
 }
 
 .lab-intro {
-  font-size: 1.1rem;
-  max-width: 42rem;
+  max-width: 38rem;
   margin-bottom: 0;
-  padding-top: 0.35rem;
+  font-size: clamp(1.02rem, 1.45vw, 1.32rem);
+  line-height: 1.55;
 }
 
 .history-outcomes-grid span,
@@ -546,7 +547,7 @@ h3 {
 
 .history-explorer {
   display: grid;
-  grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+  grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1.12fr);
   gap: clamp(18px, 2.5vw, 28px);
   align-items: start;
 }
@@ -581,8 +582,11 @@ h3 {
 }
 
 .history-panel-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
   margin-bottom: 18px;
-  align-items: center;
+  align-items: start;
 }
 
 .history-panel-head h3 {
@@ -599,15 +603,16 @@ h3 {
 }
 
 .history-filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  justify-self: stretch;
+  width: 100%;
 }
 
 .history-filter-button {
   min-height: 42px;
-  padding: 10px 14px;
+  padding: 10px 12px;
   color: var(--navy);
   background: #fff;
   border: 1px solid var(--line);
@@ -615,6 +620,7 @@ h3 {
   cursor: pointer;
   font: inherit;
   font-weight: 850;
+  white-space: nowrap;
 }
 
 .history-filter-button[aria-pressed="true"] {
@@ -716,8 +722,8 @@ h3 {
 
 .history-detail-card {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
-  gap: clamp(20px, 3vw, 34px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 30px);
   background:
     linear-gradient(180deg, rgba(20, 33, 61, 0.08), transparent 34%),
     rgba(255, 253, 246, 0.98);
@@ -745,7 +751,7 @@ h3 {
 .history-detail-frame {
   position: relative;
   overflow: hidden;
-  min-height: clamp(360px, 48vw, 560px);
+  min-height: clamp(340px, 34vw, 480px);
   border-radius: calc(var(--radius) + 6px);
   background: var(--navy);
 }

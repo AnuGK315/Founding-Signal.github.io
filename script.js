@@ -356,7 +356,7 @@ function setupPoll() {
   const pollNote = document.querySelector("#poll-note");
   const resultsLabel = document.querySelector("#results-label");
 
-  if (!pollEl || !pollNote || !resultsLabel) return;
+  if (!pollEl || !resultsLabel) return;
 
   function renderPoll() {
     const savedVote = safeReadStorage(pollStorageKey);
@@ -388,13 +388,13 @@ function setupPoll() {
     if (savedVote !== null) {
       const picked = pollOptions[Number(savedVote)];
       if (picked) {
-        pollNote.textContent = `Vote recorded: ${picked.label}.`;
+        if (pollNote) pollNote.textContent = `Vote recorded: ${picked.label}.`;
         resultsLabel.textContent = "After your vote";
       }
       return;
     }
 
-    pollNote.textContent = "One vote is recorded per browser.";
+    if (pollNote) pollNote.textContent = "One vote is recorded per browser.";
     resultsLabel.textContent = "Sample benchmark results";
   }
 
