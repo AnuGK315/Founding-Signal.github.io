@@ -276,7 +276,9 @@ const historyMoments = [
   }
 ];
 
-const supabaseUrl = (window.FOUNDING_SIGNAL_SUPABASE_URL || "").replace(/\/$/, "");
+const supabaseUrl = (window.FOUNDING_SIGNAL_SUPABASE_URL || "")
+  .replace(/\/+$/, "")
+  .replace(/\/rest\/v1$/i, "");
 const supabaseAnonKey = window.FOUNDING_SIGNAL_SUPABASE_ANON_KEY || "";
 const localPollApiUrl =
   window.FOUNDING_SIGNAL_POLL_API_URL ||
@@ -504,8 +506,6 @@ function setupPoll() {
     if (selectedVoteIndex !== null) return;
 
     selectedVoteIndex = index;
-    currentOptions[index].votes += 1;
-    renderPoll();
 
     if (supabaseUrl && supabaseAnonKey) {
       try {
@@ -519,11 +519,15 @@ function setupPoll() {
         usingSharedResponses = true;
         renderPoll();
       } catch {
+        selectedVoteIndex = null;
         usingSharedResponses = false;
         renderPoll();
       }
       return;
     }
+
+    currentOptions[index].votes += 1;
+    renderPoll();
 
     if (!localPollApiUrl) return;
 
