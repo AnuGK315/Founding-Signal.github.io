@@ -43,14 +43,59 @@ const questions = [
     ],
     correct: 0,
     note: "The Declaration announces principles; the Constitution builds a governing system with limits, representation, and checks."
+  },
+  {
+    question: "Who was the main author of the Declaration's first draft?",
+    answers: ["Thomas Jefferson", "George Washington", "Alexander Hamilton", "James Madison"],
+    correct: 0,
+    note: "Thomas Jefferson wrote the main draft, with edits from a committee and from Congress."
+  },
+  {
+    question: "Which body voted to approve the Declaration?",
+    answers: ["The Second Continental Congress", "The Supreme Court", "The Constitutional Convention", "The first U.S. Senate"],
+    correct: 0,
+    note: "The Second Continental Congress approved the Declaration while meeting in Philadelphia."
+  },
+  {
+    question: "What does 'unalienable rights' mean in the Declaration?",
+    answers: [
+      "Rights people are born with and should not be taken away",
+      "Rights only soldiers can claim",
+      "Rights granted by a king",
+      "Rights that expire after a war"
+    ],
+    correct: 0,
+    note: "Unalienable rights are treated as inherent rights that government is supposed to secure, not invent."
+  },
+  {
+    question: "Why did the Declaration list grievances against King George III?",
+    answers: [
+      "To explain why independence was justified",
+      "To ask him to write the Constitution",
+      "To choose the first president",
+      "To create a new tax system"
+    ],
+    correct: 0,
+    note: "The grievances built the case that British rule had violated colonial rights and consent."
+  },
+  {
+    question: "What happened before the Declaration was adopted?",
+    answers: [
+      "Fighting had already begun at Lexington and Concord",
+      "The Bill of Rights had already been ratified",
+      "George Washington had already finished two terms as president",
+      "The Treaty of Paris had already ended the war"
+    ],
+    correct: 0,
+    note: "The war began in April 1775, more than a year before Congress approved the Declaration."
   }
 ];
 
 const pollOptions = [
-  { label: "Rights", votes: 38 },
-  { label: "Self-government", votes: 28 },
-  { label: "Independence Day", votes: 24 },
-  { label: "Checks on power", votes: 18 }
+  { label: "Rights", votes: 13 },
+  { label: "Self-government", votes: 10 },
+  { label: "Independence Day", votes: 8 },
+  { label: "Checks on power", votes: 7 }
 ];
 
 const historyFilters = [
@@ -231,24 +276,11 @@ const historyMoments = [
   }
 ];
 
-const pollStorageKey = "pulse250-vote";
-
-function safeReadStorage(key) {
-  try {
-    return window.localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function safeWriteStorage(key, value) {
-  try {
-    window.localStorage.setItem(key, value);
-    return true;
-  } catch {
-    return false;
-  }
-}
+const supabaseUrl = (window.FOUNDING_SIGNAL_SUPABASE_URL || "").replace(/\/$/, "");
+const supabaseAnonKey = window.FOUNDING_SIGNAL_SUPABASE_ANON_KEY || "";
+const localPollApiUrl =
+  window.FOUNDING_SIGNAL_POLL_API_URL ||
+  (window.location.hostname.endsWith("github.io") || supabaseUrl ? "" : "/api/poll");
 
 function setupQuiz() {
   const questionCount = document.querySelector("#question-count");
@@ -345,7 +377,7 @@ function setupQuiz() {
 
     updateScore(true);
     nextButton.disabled = true;
-    nextButton.textContent = "Pulse complete";
+    nextButton.textContent = "Quiz complete";
   });
 
   renderQuestion();
@@ -353,52 +385,169 @@ function setupQuiz() {
 
 function setupPoll() {
   const pollEl = document.querySelector("#poll-options");
-  const pollNote = document.querySelector("#poll-note");
   const resultsLabel = document.querySelector("#results-label");
+  const resultsEl = document.querySelector("#poll-results");
+  const pulseLayout = pollEl?.closest(".pulse-layout");
+  const resultsBoard = resultsEl?.closest(".results-board");
 
-  if (!pollEl || !resultsLabel) return;
+  if (!pollEl || !resultsLabel || !resultsEl) return;
+
+  let currentOptions = pollOptions.map((option) => ({ ...option }));
+  let selectedVoteIndex = null;
+  let usingSharedResponses = false;
+
+  function totalVotes(options) {
+    return options.reduce((sum, option) => sum + option.votes, 0);
+  }
+
+  function percentFor(option, total) {
+    if (!total) return 0;
+    return Math.round((option.votes / total) * 100);
+  }
+
+  function normalizeOptions(options) {
+    return options
+      .map((option) => ({
+        label: option.label,
+        votes: Number(option.votes) || 0,
+        sortOrder: Number(option.sort_order ?? option.sortOrder ?? 0)
+      }))
+      .sort((a, b) => a.sortOrder - b.sortOrder);
+  }
+
+  async function fetchSupabasePoll(functionName, body = {}) {
+    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/${functionName}`, {
+      method: "POST",
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${supabaseAnonKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) throw new Error("Supabase poll request failed");
+    return response.json();
+  }
 
   function renderPoll() {
-    const savedVote = safeReadStorage(pollStorageKey);
-    const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0);
+    const total = totalVotes(currentOptions);
+    const hasVote = selectedVoteIndex !== null;
 
     pollEl.innerHTML = "";
+    resultsEl.innerHTML = "";
+    pulseLayout?.classList.toggle("poll-pending", !hasVote);
+    if (resultsBoard) resultsBoard.hidden = !hasVote;
 
-    pollOptions.forEach((option, index) => {
+    currentOptions.forEach((option, index) => {
       const button = document.createElement("button");
-      const isSelected = savedVote === String(index);
-      const percent = Math.round((option.votes / totalVotes) * 100);
+      const isSelected = selectedVoteIndex === index;
+      const percent = percentFor(option, total);
 
       button.className = "poll-choice";
       button.type = "button";
       button.setAttribute("aria-pressed", isSelected ? "true" : "false");
-      button.disabled = savedVote !== null;
-      button.innerHTML = `<span>${option.label}</span><strong>${percent}%</strong>`;
+      button.disabled = selectedVoteIndex !== null;
+      button.innerHTML = hasVote
+        ? `<span>${option.label}</span><strong>${option.votes} votes</strong>`
+        : `<span>${option.label}</span>`;
 
-      button.addEventListener("click", () => {
-        if (safeReadStorage(pollStorageKey) !== null) return;
-        option.votes += 1;
-        safeWriteStorage(pollStorageKey, String(index));
-        renderPoll();
-      });
+      button.addEventListener("click", () => recordVote(index));
 
       pollEl.append(button);
+
+      const row = document.createElement("div");
+      row.className = "result-row";
+      row.innerHTML = `<span>${option.label}</span><strong>${percent}%</strong>`;
+
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.setProperty("--value", percent);
+      bar.innerHTML = "<span></span>";
+
+      if (hasVote) resultsEl.append(row, bar);
     });
 
-    if (savedVote !== null) {
-      const picked = pollOptions[Number(savedVote)];
-      if (picked) {
-        if (pollNote) pollNote.textContent = `Vote recorded: ${picked.label}.`;
-        resultsLabel.textContent = "After your vote";
+    resultsLabel.textContent = hasVote ? `After your vote / ${total} responses` : "";
+  }
+
+  async function loadSharedResponses() {
+    if (supabaseUrl && supabaseAnonKey) {
+      try {
+        currentOptions = normalizeOptions(await fetchSupabasePoll("get_poll_results"));
+        usingSharedResponses = true;
+        renderPoll();
+      } catch {
+        usingSharedResponses = false;
+        renderPoll();
       }
       return;
     }
 
-    if (pollNote) pollNote.textContent = "One vote is recorded per browser.";
-    resultsLabel.textContent = "Sample benchmark results";
+    if (!localPollApiUrl) return;
+
+    try {
+      const response = await fetch(localPollApiUrl, { cache: "no-store" });
+      if (!response.ok) throw new Error("Poll API unavailable");
+      const data = await response.json();
+      if (!Array.isArray(data.options)) throw new Error("Poll API returned invalid data");
+      currentOptions = normalizeOptions(data.options);
+      usingSharedResponses = true;
+      renderPoll();
+    } catch {
+      usingSharedResponses = false;
+      renderPoll();
+    }
+  }
+
+  async function recordVote(index) {
+    if (selectedVoteIndex !== null) return;
+
+    selectedVoteIndex = index;
+    currentOptions[index].votes += 1;
+    renderPoll();
+
+    if (supabaseUrl && supabaseAnonKey) {
+      try {
+        currentOptions = normalizeOptions(
+          await fetchSupabasePoll("record_poll_vote", {
+            selected_label: currentOptions[index].label,
+            page_url: window.location.href,
+            user_agent: navigator.userAgent
+          })
+        );
+        usingSharedResponses = true;
+        renderPoll();
+      } catch {
+        usingSharedResponses = false;
+        renderPoll();
+      }
+      return;
+    }
+
+    if (!localPollApiUrl) return;
+
+    try {
+      const response = await fetch(localPollApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: currentOptions[index].label })
+      });
+      if (!response.ok) throw new Error("Vote was not saved");
+      const data = await response.json();
+      if (Array.isArray(data.options)) {
+        currentOptions = normalizeOptions(data.options);
+        usingSharedResponses = true;
+        renderPoll();
+      }
+    } catch {
+      usingSharedResponses = false;
+      renderPoll();
+    }
   }
 
   renderPoll();
+  loadSharedResponses();
 }
 
 function setupLab() {

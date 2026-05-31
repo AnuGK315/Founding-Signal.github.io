@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A July 4, 2026 America 250 quiz and history guide about the Declaration of Independence."
+      content="Founding Signal is a July 4, 2026 quiz, poll, and history guide about the Declaration of Independence."
     />
-    <title>Pulse 250 | Declaration of Independence</title>
+    <title>Founding Signal | Declaration of Independence</title>
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header class="site-header" aria-label="Primary">
-      <a class="brand" href="#top" aria-label="Pulse 250 home">
-        <span class="brand-mark" aria-hidden="true">250</span>
-        <span>Pulse 250</span>
+      <a class="brand" href="#top" aria-label="Founding Signal home">
+        <span class="brand-mark" aria-hidden="true">76</span>
+        <span>Founding Signal</span>
       </a>
       <nav aria-label="Page sections">
         <a href="#pulse">Pulse</a>
@@ -32,7 +32,7 @@
           <p class="eyebrow">America's 250th birthday / July 4, 2026</p>
           <h1 id="hero-title">How well do you know independence?</h1>
           <p class="lede">
-            Answer five fast questions, compare your read on the Declaration, and follow the idea
+            Answer ten fast questions, compare your read on the Declaration, and follow the idea
             that power only stays legitimate when people can hold it accountable.
           </p>
           <div class="hero-actions" aria-label="Primary actions">
@@ -74,41 +74,22 @@
           <h2 id="pulse-title">What people recognize first</h2>
         </div>
 
-        <div class="pulse-layout">
+        <div class="pulse-layout poll-pending">
           <article class="poll-card">
             <h3>Before the quiz, which idea feels most connected to the Declaration to you?</h3>
             <div class="poll-options" id="poll-options"></div>
           </article>
 
-          <div class="results-board" aria-label="Sample survey results">
-            <p class="results-label" id="results-label">Sample benchmark results</p>
-            <div class="result-row" style="--value: 84">
-              <span>Life, liberty, pursuit of happiness</span>
-              <strong>84%</strong>
-            </div>
-            <div class="bar" style="--value: 84"><span></span></div>
-            <div class="result-row" style="--value: 67">
-              <span>Consent of the governed</span>
-              <strong>67%</strong>
-            </div>
-            <div class="bar" style="--value: 67"><span></span></div>
-            <div class="result-row" style="--value: 51">
-              <span>Natural rights</span>
-              <strong>51%</strong>
-            </div>
-            <div class="bar" style="--value: 51"><span></span></div>
-            <div class="result-row" style="--value: 43">
-              <span>Connection to the Constitution</span>
-              <strong>43%</strong>
-            </div>
-            <div class="bar" style="--value: 43"><span></span></div>
+          <div class="results-board" aria-label="Poll response results" hidden>
+            <p class="results-label" id="results-label">38 responses and counting</p>
+            <div id="poll-results"></div>
           </div>
         </div>
       </section>
 
       <section class="section quiz-section" id="quiz" aria-labelledby="quiz-title">
         <div class="section-heading">
-          <h2 id="quiz-title">Five-question Declaration pulse check</h2>
+          <h2 id="quiz-title">Ten-question Declaration check</h2>
         </div>
 
         <div class="quiz-shell">
@@ -287,6 +268,7 @@
       <a href="https://www.archives.gov/founding-docs/downloads">Image source</a>
     </footer>
 
+    <script src="./config.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
