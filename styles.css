@@ -85,8 +85,34 @@ a {
   background: var(--navy);
   border: 2px solid var(--red);
   border-radius: 50%;
-  font-weight: 900;
-  letter-spacing: 0;
+  overflow: hidden;
+}
+
+.brand-mark svg {
+  width: 29px;
+  height: 29px;
+}
+
+.mark-paper {
+  fill: var(--panel);
+}
+
+.mark-canton {
+  fill: var(--red);
+}
+
+.mark-lines {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.mark-signal {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 5;
+  stroke-linecap: round;
 }
 
 nav {
