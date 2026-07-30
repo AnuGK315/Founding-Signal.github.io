@@ -276,13 +276,13 @@ const historyMoments = [
   }
 ];
 
-const supabaseUrl = (window.FOUNDING_SIGNAL_SUPABASE_URL || "")
-  .replace(/\/+$/, "")
-  .replace(/\/rest\/v1$/i, "");
-const supabaseAnonKey = window.FOUNDING_SIGNAL_SUPABASE_ANON_KEY || "";
+const countApiBaseUrl = "https://countapi.mileshilliard.com/api/v1";
+const countApiNamespace =
+  window.FOUNDING_SIGNAL_COUNT_API_NAMESPACE || "founding-signal-poll-2026";
+const pollVoteStorageKey = `${countApiNamespace}:selected-poll-option`;
 const localPollApiUrl =
   window.FOUNDING_SIGNAL_POLL_API_URL ||
-  (window.location.hostname.endsWith("github.io") || supabaseUrl ? "" : "/api/poll");
+  (window.location.hostname.endsWith("github.io") ? "" : "/api/poll");
 
 function setupQuiz() {
   const questionCount = document.querySelector("#question-count");
@@ -395,8 +395,7 @@ function setupPoll() {
   if (!pollEl || !resultsLabel || !resultsEl) return;
 
   let currentOptions = pollOptions.map((option) => ({ ...option }));
-  let selectedVoteIndex = null;
-  let usingSharedResponses = false;
+  let selectedVoteIndex = getStoredVoteIndex();
 
   function totalVotes(options) {
     return options.reduce((sum, option) => sum + option.votes, 0);
@@ -417,19 +416,65 @@ function setupPoll() {
       .sort((a, b) => a.sortOrder - b.sortOrder);
   }
 
-  async function fetchSupabasePoll(functionName, body = {}) {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/${functionName}`, {
-      method: "POST",
-      headers: {
-        apikey: supabaseAnonKey,
-        Authorization: `Bearer ${supabaseAnonKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
+  function getStoredVoteIndex() {
+    try {
+      const savedLabel = localStorage.getItem(pollVoteStorageKey);
+      if (!savedLabel) return null;
+      const index = pollOptions.findIndex((option) => option.label === savedLabel);
+      return index >= 0 ? index : null;
+    } catch {
+      return null;
+    }
+  }
 
-    if (!response.ok) throw new Error("Supabase poll request failed");
-    return response.json();
+  function storeVote(index) {
+    try {
+      localStorage.setItem(pollVoteStorageKey, currentOptions[index].label);
+    } catch {
+      // Private browsing can block localStorage; the in-memory vote lock still works.
+    }
+  }
+
+  function countApiKeyFor(label) {
+    const optionKey = label
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+
+    return `${countApiNamespace}_${optionKey}`;
+  }
+
+  function countApiUrlFor(label, action) {
+    return `${countApiBaseUrl}/${action}/${encodeURIComponent(countApiKeyFor(label))}`;
+  }
+
+  function countFromResponse(data) {
+    return Number(data.value) || 0;
+  }
+
+  async function fetchCountApiCount(label) {
+    const response = await fetch(countApiUrlFor(label, "get"), { cache: "no-store" });
+    if (response.status === 404) return 0;
+    if (!response.ok) throw new Error("Count API unavailable");
+    return countFromResponse(await response.json());
+  }
+
+  async function loadCountApiPoll() {
+    const counts = await Promise.all(pollOptions.map((option) => fetchCountApiCount(option.label)));
+
+    currentOptions = pollOptions.map((option, index) => ({
+      ...option,
+      votes: option.votes + counts[index],
+      sortOrder: index
+    }));
+  }
+
+  async function recordCountApiVote(index) {
+    const response = await fetch(countApiUrlFor(currentOptions[index].label, "hit"), {
+      cache: "no-store"
+    });
+    if (!response.ok) throw new Error("Vote was not saved");
+    currentOptions[index].votes = pollOptions[index].votes + countFromResponse(await response.json());
   }
 
   function renderPoll() {
@@ -474,17 +519,11 @@ function setupPoll() {
   }
 
   async function loadSharedResponses() {
-    if (supabaseUrl && supabaseAnonKey) {
-      try {
-        currentOptions = normalizeOptions(await fetchSupabasePoll("get_poll_results"));
-        usingSharedResponses = true;
-        renderPoll();
-      } catch {
-        usingSharedResponses = false;
-        renderPoll();
-      }
+    try {
+      await loadCountApiPoll();
+      renderPoll();
       return;
-    }
+    } catch {}
 
     if (!localPollApiUrl) return;
 
@@ -494,10 +533,8 @@ function setupPoll() {
       const data = await response.json();
       if (!Array.isArray(data.options)) throw new Error("Poll API returned invalid data");
       currentOptions = normalizeOptions(data.options);
-      usingSharedResponses = true;
       renderPoll();
     } catch {
-      usingSharedResponses = false;
       renderPoll();
     }
   }
@@ -506,28 +543,16 @@ function setupPoll() {
     if (selectedVoteIndex !== null) return;
 
     selectedVoteIndex = index;
-
-    if (supabaseUrl && supabaseAnonKey) {
-      try {
-        currentOptions = normalizeOptions(
-          await fetchSupabasePoll("record_poll_vote", {
-            selected_label: currentOptions[index].label,
-            page_url: window.location.href,
-            user_agent: navigator.userAgent
-          })
-        );
-        usingSharedResponses = true;
-        renderPoll();
-      } catch {
-        selectedVoteIndex = null;
-        usingSharedResponses = false;
-        renderPoll();
-      }
-      return;
-    }
-
+    storeVote(index);
     currentOptions[index].votes += 1;
     renderPoll();
+
+    try {
+      await recordCountApiVote(index);
+      await loadCountApiPoll();
+      renderPoll();
+      return;
+    } catch {}
 
     if (!localPollApiUrl) return;
 
@@ -541,11 +566,9 @@ function setupPoll() {
       const data = await response.json();
       if (Array.isArray(data.options)) {
         currentOptions = normalizeOptions(data.options);
-        usingSharedResponses = true;
         renderPoll();
       }
     } catch {
-      usingSharedResponses = false;
       renderPoll();
     }
   }
@@ -659,22 +682,32 @@ function setupLab() {
 
 function updateCountdown() {
   const countdown = document.querySelector("#countdown");
+  const countdownLabel = document.querySelector("#countdown-label");
   if (!countdown) return;
 
-  const target = new Date("2026-07-04T00:00:00-05:00");
+  const target = new Date(2026, 6, 4);
   const now = new Date();
-  const diff = target - now;
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.round((today - target) / 86_400_000);
 
-  if (diff <= 0) {
+  if (diffDays === 0) {
+    if (countdownLabel) countdownLabel.textContent = "July 4, 2026";
     countdown.textContent = "Today";
     return;
   }
 
-  const days = Math.ceil(diff / 86_400_000);
-  countdown.textContent = days.toLocaleString();
+  if (diffDays > 0) {
+    if (countdownLabel) countdownLabel.textContent = "Days since July 4, 2026";
+    countdown.textContent = diffDays.toLocaleString();
+    return;
+  }
+
+  if (countdownLabel) countdownLabel.textContent = "Days until July 4, 2026";
+  countdown.textContent = Math.abs(diffDays).toLocaleString();
 }
 
 setupQuiz();
 setupPoll();
 setupLab();
 updateCountdown();
+setInterval(updateCountdown, 3_600_000);
